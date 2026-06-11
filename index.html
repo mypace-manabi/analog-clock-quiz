@@ -181,6 +181,32 @@
     color: #555;
     font-size: 15px;
   }
+
+  .difficulty {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.level {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 18px;
+  border: 3px solid #d1d5db;
+  border-radius: 999px;
+  background: white;
+  color: #111827;
+  box-shadow: none;
+}
+
+.level.active {
+  background: #f97316;
+  color: white;
+  border-color: #f97316;
+}
+  
 </style>
 </head>
 <body>
@@ -192,6 +218,12 @@
     3時00分に合わせよう
   </div>
 
+  <div class="difficulty">
+    <button class="level active" data-step="10">かんたん</button>
+    <button class="level" data-step="5">ふつう</button>
+    <button class="level" data-step="1">むずかしい</button>
+  </div>
+  
   <div class="clock" id="clock">
     <div class="hand hour" id="hourHand"></div>
     <div class="hand minute" id="minuteHand"></div>
@@ -218,6 +250,7 @@
   const questionText = document.getElementById("questionText");
   const resultText = document.getElementById("resultText");
   const checkButton = document.getElementById("checkButton");
+  const levelButtons = document.querySelectorAll(".level");
   const newButton = document.getElementById("newButton");
   const resetButton = document.getElementById("resetButton");
 
@@ -227,6 +260,7 @@
 
   let targetHour = 3;
   let targetMinute = 0;
+  let minuteStep = 10;
 
   let previousMinuteAngle = null;
 
@@ -356,14 +390,15 @@
   }
 
   function makeNewQuestion() {
-    targetHour = Math.floor(Math.random() * 12) + 1;
+  targetHour = Math.floor(Math.random() * 12) + 1;
 
-    // 5分刻みで出題
-    targetMinute = Math.floor(Math.random() * 12) * 5;
+  // 難易度に応じて、10分刻み・5分刻み・1分刻みにする
+  const patternCount = 60 / minuteStep;
+  targetMinute = Math.floor(Math.random() * patternCount) * minuteStep;
 
-    resultText.textContent = "";
-    setQuestionText();
-  }
+  resultText.textContent = "";
+  setQuestionText();
+}
 
   function checkAnswer() {
     if (hour === targetHour && minute === targetMinute) {
@@ -399,6 +434,18 @@
   checkButton.addEventListener("click", checkAnswer);
   newButton.addEventListener("click", makeNewQuestion);
   resetButton.addEventListener("click", resetClock);
+
+  levelButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    minuteStep = Number(button.dataset.step);
+
+    levelButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+
+    makeNewQuestion();
+    resetClock();
+  });
+});
 
   makeNewQuestion();
   updateClock();
