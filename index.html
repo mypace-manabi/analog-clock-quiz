@@ -136,13 +136,7 @@
     background: #111;
   }
 
-  .time {
-    margin-top: 18px;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .buttons {
+   .buttons {
     margin-top: 16px;
     display: flex;
     justify-content: center;
@@ -223,7 +217,6 @@
   const clock = document.getElementById("clock");
   const hourHand = document.getElementById("hourHand");
   const minuteHand = document.getElementById("minuteHand");
-  const timeText = document.getElementById("timeText");
   const questionText = document.getElementById("questionText");
   const resultText = document.getElementById("resultText");
   const checkButton = document.getElementById("checkButton");
@@ -279,9 +272,7 @@
     hourHand.style.transform =
       `translate(-50%, -100%) rotate(${hourAngle}deg)`;
 
-    timeText.textContent =
-      `${hour}:${String(minute).padStart(2, "0")}`;
-  }
+      }
 
   function getAngleFromPointer(e) {
     const rect = clock.getBoundingClientRect();
