@@ -212,10 +212,10 @@
 <body>
 
 <div class="wrap">
-  <div class="title">時計を合わせよう</div>
+  <div class="title"><ruby>時計<rt>とけい</rt></rt></ruby>をあわせよう</div>
 
   <div class="question" id="questionText">
-    3時00分に合わせよう
+    3時00分にあわせよう
   </div>
 
   <div class="difficulty">
@@ -232,14 +232,14 @@
 
   <div class="buttons">
     <button class="check" id="checkButton">答え合わせ</button>
-    <button class="new" id="newButton">新しい問題</button>
+    <button class="new" id="newButton"><ruby>新<rt>あたら</rt></ruby>しい<ruby>問題<rt>もんだい</rt></ruby></button>
     <button class="reset" id="resetButton">リセット</button>
   </div>
 
   <div class="result" id="resultText"></div>
 
   <div class="hint">
-    青い長針・黒い短針をドラッグして時刻を合わせます
+    <ruby>針<rt>はり</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かして<ruby>時計<rt>とけい</rt></rt></ruby>をあわせます
   </div>
 </div>
 
@@ -386,7 +386,7 @@
 
   function setQuestionText() {
     questionText.textContent =
-      `${targetHour}時${String(targetMinute).padStart(2, "0")}分に合わせよう`;
+      `${targetHour}時${String(targetMinute).padStart(2, "0")}分にあわせよう`;
   }
 
   function makeNewQuestion() {
