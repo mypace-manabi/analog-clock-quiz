@@ -212,6 +212,7 @@
 <body>
   
 <audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="wrong.mp3" preload="auto"></audio>
   
 <div class="wrap">
   <div class="title"><ruby>時計<rt>とけい</rt></rt></ruby>をあわせよう</div>
@@ -407,7 +408,11 @@
   sound.currentTime = 0;
   sound.play();
 }
-  
+function playWrongSound() {
+  const sound = document.getElementById("wrongSound");
+  sound.currentTime = 0;
+  sound.play();
+}  
   function checkAnswer() {
   if (hour === targetHour && minute === targetMinute) {
     resultText.textContent = "正解！";
@@ -418,6 +423,8 @@
   } else {
     resultText.textContent = "もう一度！";
     resultText.style.color = "#dc2626";
+
+    playWrongSound();
   }
 }
 
