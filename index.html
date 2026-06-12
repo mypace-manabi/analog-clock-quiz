@@ -401,7 +401,13 @@
 }
 
   function playCorrectSound() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audioContext = new AudioContext();
+
+  // タブレットやスマホで音が止められている場合に再開する
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
 
   const oscillator = audioContext.createOscillator();
   const gainNode = audioContext.createGain();
@@ -411,30 +417,32 @@
 
   oscillator.type = "sine";
 
-  oscillator.frequency.setValueAtTime(880, audioContext.currentTime);
-  oscillator.frequency.setValueAtTime(1320, audioContext.currentTime + 0.12);
+  const now = audioContext.currentTime;
 
-  gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime + 0.35
-  );
+  gainNode.gain.setValueAtTime(0.001, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.35);
+  oscillator.frequency.setValueAtTime(880, now);
+  oscillator.frequency.setValueAtTime(1320, now + 0.12);
+
+  gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+  oscillator.start(now);
+  oscillator.stop(now + 0.4);
 }
   
   function checkAnswer() {
-    if (hour === targetHour && minute === targetMinute) {
-      resultText.textContent = "正解！";
-      resultText.style.color = "#16a34a";
-      playCorrectSound();      
-    } else {
-      resultText.textContent =
-        `もう一度！ 今は ${hour}時${String(minute).padStart(2, "0")}分`;
-      resultText.style.color = "#dc2626";
-    }
+  if (hour === targetHour && minute === targetMinute) {
+    resultText.textContent = "正解！";
+    resultText.style.color = "#16a34a";
+
+    playCorrectSound();
+
+  } else {
+    resultText.textContent = "もう一度！";
+    resultText.style.color = "#dc2626";
   }
+}
 
   function resetClock() {
     hour = 12;
