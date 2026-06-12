@@ -210,7 +210,9 @@
 </style>
 </head>
 <body>
-
+  
+<audio id="correctSound" src="正解・ピンポン音.mp3" preload="auto"></audio>
+  
 <div class="wrap">
   <div class="title"><ruby>時計<rt>とけい</rt></rt></ruby>をあわせよう</div>
 
@@ -401,34 +403,9 @@
 }
 
   function playCorrectSound() {
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audioContext = new AudioContext();
-
-  // タブレットやスマホで音が止められている場合に再開する
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  oscillator.type = "sine";
-
-  const now = audioContext.currentTime;
-
-  gainNode.gain.setValueAtTime(0.001, now);
-  gainNode.gain.exponentialRampToValueAtTime(0.2, now + 0.02);
-
-  oscillator.frequency.setValueAtTime(880, now);
-  oscillator.frequency.setValueAtTime(1320, now + 0.12);
-
-  gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-
-  oscillator.start(now);
-  oscillator.stop(now + 0.4);
+  const sound = document.getElementById("correctSound");
+  sound.currentTime = 0;
+  sound.play();
 }
   
   function checkAnswer() {
