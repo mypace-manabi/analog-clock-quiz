@@ -201,7 +201,11 @@
   color: white;
   border-color: #f97316;
 }
-  
+
+.target-time {
+  color: #dc2626;
+}  
+
 </style>
 </head>
 <body>
@@ -227,8 +231,8 @@
   </div>
 
   <div class="buttons">
-    <button class="check" id="checkButton"><ruby>答<rt>こた</rt></ruby>えあわせ</button>
     <button class="new" id="newButton"><ruby>新<rt>あたら</rt></ruby>しい<ruby>問題<rt>もんだい</rt></ruby></button>
+    <button class="check" id="checkButton"><ruby>答<rt>こた</rt></ruby>えあわせ</button>
     <button class="reset" id="resetButton">リセット</button>
   </div>
 
@@ -379,9 +383,9 @@
   }
 
   function setQuestionText() {
-    questionText.textContent =
-      `${targetHour}時${String(targetMinute).padStart(2, "0")}分にあわせよう`;
-  }
+  questionText.innerHTML =
+    `<span class="target-time">${targetHour}時${String(targetMinute).padStart(2, "0")}分</span>に合わせよう`;
+}
 
   function makeNewQuestion() {
   targetHour = Math.floor(Math.random() * 12) + 1;
