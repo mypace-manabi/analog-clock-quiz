@@ -24,11 +24,17 @@
 
 
   .question {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 18px;
-    color: #111827;
-  }
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 18px;
+  color: #dc2626;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.question.fade-out {
+  opacity: 0;
+  transform: scale(0.92);
+}
 
   .clock {
     width: 360px;
@@ -388,14 +394,20 @@
 }
 
   function makeNewQuestion() {
-  targetHour = Math.floor(Math.random() * 12) + 1;
-
-  // 難易度に応じて、10分刻み・5分刻み・1分刻みにする
-  const patternCount = 60 / minuteStep;
-  targetMinute = Math.floor(Math.random() * patternCount) * minuteStep;
-
   resultText.textContent = "";
-  setQuestionText();
+
+  questionText.classList.add("fade-out");
+
+  setTimeout(() => {
+    targetHour = Math.floor(Math.random() * 12) + 1;
+
+    const patternCount = 60 / minuteStep;
+    targetMinute = Math.floor(Math.random() * patternCount) * minuteStep;
+
+    setQuestionText();
+
+    questionText.classList.remove("fade-out");
+  }, 220);
 }
 
   function playCorrectSound() {
